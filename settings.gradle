@@ -1,0 +1,7 @@
+include 'payment'
+include 'payment-gateway'
+include 'payment-executor'
+include 'person'
+include 'orchestrator'
+
+rootProject.name = 'camunda-microservices'
