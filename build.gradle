@@ -61,6 +61,12 @@ project(':orchestrator') {
     }
 }
 
+project(':payment-executor') {
+    dependencies {
+        compile("org.springframework.boot:spring-boot-starter-web")
+    }
+}
+
 project(':payment-gateway') {
     dependencies {
         compile("org.springframework.boot:spring-boot-starter-web")
