@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.camunda.bpm.dmn:camunda-engine-feel-juel:7.6.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.bpm.dmn/camunda-engine-feel-juel/7.6.0/d9d0dac927e12202edbd078d7bb6c8deb4454c46/camunda-engine-feel-juel-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.bpm.dmn/camunda-engine-feel-juel/7.6.0/7765aa2563cd8c675b78841074cdcc1b6a566638/camunda-engine-feel-juel-7.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

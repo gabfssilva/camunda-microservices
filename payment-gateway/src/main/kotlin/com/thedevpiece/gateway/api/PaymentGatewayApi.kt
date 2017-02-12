@@ -1,4 +1,4 @@
-package com.thedevpiece.person.api
+package com.thedevpiece.gateway.api
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -17,11 +17,9 @@ data class PaymentMock(@Min(1) val value: Int = 0, val status: String = "")
 @RequestMapping("/payment")
 class PaymentMockEndpoint {
     @PostMapping
-    fun pay(@RequestBody body: PaymentMock): PaymentMock {
-        return when(body.value) {
-            3000 -> PaymentMock(body.value, "PAID")
-            else -> PaymentMock(body.value, "NOT_PAID")
-        }
+    fun pay(@RequestBody body: PaymentMock): PaymentMock = when {
+        body.value == 3000 -> PaymentMock(body.value, "PAID")
+        else -> PaymentMock(body.value, "NOT_PAID")
     }
 }
 

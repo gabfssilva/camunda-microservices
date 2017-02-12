@@ -5,14 +5,14 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/usr/lib/gradle/2.14" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/2.12/libexec" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/orchestrator" />
             <option value="$PROJECT_DIR$/payment" />
-            <option value="$PROJECT_DIR$/payment-executor" />
+            <option value="$PROJECT_DIR$/payment-flow-services" />
             <option value="$PROJECT_DIR$/payment-gateway" />
             <option value="$PROJECT_DIR$/person" />
           </set>

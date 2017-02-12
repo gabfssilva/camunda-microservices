@@ -1,5 +1,5 @@
 server:
-  context-path: /person
+  context-path: /person-api
   servlet-path: /rs
   port: 8081
   address: 0.0.0.0

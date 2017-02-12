@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.camunda.commons:camunda-commons-logging:1.4.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.commons/camunda-commons-logging/1.4.0/7333698c4c74aa7ccc555cc96f999d805625de63/camunda-commons-logging-1.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.commons/camunda-commons-logging/1.4.0/4ea4b93d4f7ce33f8db0fea77d5f6766f5b6b317/camunda-commons-logging-1.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -57,12 +57,16 @@ project(':payment') {
 
 project(':orchestrator') {
     dependencies {
+        compile group: 'org.camunda.bpm', name: 'camunda-engine', version: '7.6.0'
+
+        compile('com.beust:klaxon:0.27')
         compile("org.springframework.boot:spring-boot-starter-web")
     }
 }
 
-project(':payment-executor') {
+project(':payment-flow-services') {
     dependencies {
+        compile('com.beust:klaxon:0.27')
         compile("org.springframework.boot:spring-boot-starter-web")
     }
 }
