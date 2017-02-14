@@ -2,6 +2,15 @@ apply plugin: 'java'
 
 repositories {
     jcenter()
+
+    maven {
+        url "http://nexus.billing.intranet/content/groups/public/"
+
+        credentials {
+            username 'admin'
+            password 'admin123'
+        }
+    }
 }
 
 buildscript {
@@ -20,6 +29,15 @@ buildscript {
 subprojects {
     repositories {
         jcenter()
+
+        maven {
+            url "http://nexus.billing.intranet/content/groups/public/"
+
+            credentials {
+                username 'admin'
+                password 'admin123'
+            }
+        }
     }
 
     apply plugin: 'kotlin'
@@ -57,7 +75,8 @@ project(':payment') {
 
 project(':orchestrator') {
     dependencies {
-        compile group: 'org.camunda.bpm', name: 'camunda-engine', version: '7.6.0'
+        compile 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter:2.0.0'
+        compile 'org.camunda.bpm.extension.springboot:camunda-bpm-spring-boot-starter-webapp:2.0.0'
 
         compile('com.beust:klaxon:0.27')
         compile("org.springframework.boot:spring-boot-starter-web")
@@ -66,6 +85,7 @@ project(':orchestrator') {
 
 project(':payment-flow-services') {
     dependencies {
+        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
         compile('com.beust:klaxon:0.27')
         compile("org.springframework.boot:spring-boot-starter-web")
     }

@@ -1,5 +1,15 @@
 server:
-  context-path: /payment
-  servlet-path: /rs
-  port: 8083
+  context-path: /orchestrator
+  port: 8085
   address: 0.0.0.0
+
+camunda:
+  bpm:
+    webapp:
+      index-redirect-enabled: false
+
+    auto-deployment-enabled: true
+
+    job-execution:
+      deployment-resource-pattern:
+        - classpath:flows/*.bpmn

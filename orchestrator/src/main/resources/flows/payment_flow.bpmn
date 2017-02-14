@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
+  <bpmn:process id="payment_flow" name="payment_flow" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1uebgze</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1uebgze" sourceRef="StartEvent_1" targetRef="Task_1jhc7hl" />
+    <bpmn:serviceTask id="Task_1jhc7hl" name="Obter dados de pessoa" camunda:class="com.thedevpiece.orchestrator.GenericHttpDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="url">http://localhost:8084/payment-services/rs/getNewPerson</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1uebgze</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1irmcbq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1irmcbq" sourceRef="Task_1jhc7hl" targetRef="Task_0m1w8fm" />
+    <bpmn:serviceTask id="Task_0m1w8fm" name="Salvar pessoa" camunda:class="com.thedevpiece.orchestrator.GenericHttpDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="url">http://localhost:8084/payment-services/rs/savePerson</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1irmcbq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0pyv613</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0pyv613" sourceRef="Task_0m1w8fm" targetRef="Task_0e2z6th" />
+    <bpmn:serviceTask id="Task_0e2z6th" name="Realizar pagamento" camunda:class="com.thedevpiece.orchestrator.GenericHttpDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="url">http://localhost:8084/payment-services/rs/pay</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0pyv613</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1osi46h</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1tre7t5">
+      <bpmn:incoming>SequenceFlow_1osi46h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tnd141</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_17cvj0t</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1osi46h" sourceRef="Task_0e2z6th" targetRef="ExclusiveGateway_1tre7t5" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tnd141" sourceRef="ExclusiveGateway_1tre7t5" targetRef="Task_0ewa9mz">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${status=='PAID'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_17cvj0t" sourceRef="ExclusiveGateway_1tre7t5" targetRef="Task_1u5t96p">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${status=='NOT_PAID'}]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_147lfqq" sourceRef="Task_1u5t96p" targetRef="EndEvent_1n660bq" />
+    <bpmn:endEvent id="EndEvent_1n660bq">
+      <bpmn:incoming>SequenceFlow_147lfqq</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_102ss5l</bpmn:incoming>
+      <bpmn:terminateEventDefinition />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_102ss5l" sourceRef="Task_0ewa9mz" targetRef="EndEvent_1n660bq" />
+    <bpmn:serviceTask id="Task_0ewa9mz" name="Atualizar status pessoa para ATIVO" camunda:class="com.thedevpiece.orchestrator.GenericHttpDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="url">http://localhost:8084/payment-services/rs/updatePersonActive</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0tnd141</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_102ss5l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_1u5t96p" name="Atualizar status pessoa para INATIVO" camunda:class="com.thedevpiece.orchestrator.GenericHttpDelegate">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="url">http://localhost:8084/payment-services/rs/updatePersonInactive</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17cvj0t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_147lfqq</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="payment_flow">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="151" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="169" y="378" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1uebgze_di" bpmnElement="SequenceFlow_1uebgze">
+        <di:waypoint xsi:type="dc:Point" x="187" y="360" />
+        <di:waypoint xsi:type="dc:Point" x="293" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="240" y="345" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1p3c9o7_di" bpmnElement="Task_1jhc7hl">
+        <dc:Bounds x="293" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1irmcbq_di" bpmnElement="SequenceFlow_1irmcbq">
+        <di:waypoint xsi:type="dc:Point" x="393" y="360" />
+        <di:waypoint xsi:type="dc:Point" x="489" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="441" y="345" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_09nxzag_di" bpmnElement="Task_0m1w8fm">
+        <dc:Bounds x="489" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pyv613_di" bpmnElement="SequenceFlow_0pyv613">
+        <di:waypoint xsi:type="dc:Point" x="589" y="360" />
+        <di:waypoint xsi:type="dc:Point" x="687" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="638" y="345" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1hml2og_di" bpmnElement="Task_0e2z6th">
+        <dc:Bounds x="687" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1tre7t5_di" bpmnElement="ExclusiveGateway_1tre7t5" isMarkerVisible="true">
+        <dc:Bounds x="875" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="900" y="385" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1osi46h_di" bpmnElement="SequenceFlow_1osi46h">
+        <di:waypoint xsi:type="dc:Point" x="787" y="360" />
+        <di:waypoint xsi:type="dc:Point" x="875" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="831" y="335" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tnd141_di" bpmnElement="SequenceFlow_0tnd141">
+        <di:waypoint xsi:type="dc:Point" x="900" y="335" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="209" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="915" y="272" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_17cvj0t_di" bpmnElement="SequenceFlow_17cvj0t">
+        <di:waypoint xsi:type="dc:Point" x="900" y="385" />
+        <di:waypoint xsi:type="dc:Point" x="900" y="501" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="915" y="443" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_147lfqq_di" bpmnElement="SequenceFlow_147lfqq">
+        <di:waypoint xsi:type="dc:Point" x="950" y="541" />
+        <di:waypoint xsi:type="dc:Point" x="1107" y="541" />
+        <di:waypoint xsi:type="dc:Point" x="1107" y="378" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1029" y="526" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_10z2h39_di" bpmnElement="EndEvent_1n660bq">
+        <dc:Bounds x="1089" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1107" y="378" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_102ss5l_di" bpmnElement="SequenceFlow_102ss5l">
+        <di:waypoint xsi:type="dc:Point" x="950" y="169" />
+        <di:waypoint xsi:type="dc:Point" x="1107" y="169" />
+        <di:waypoint xsi:type="dc:Point" x="1107" y="342" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1029" y="154" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0q5dusb_di" bpmnElement="Task_0ewa9mz">
+        <dc:Bounds x="850" y="129" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0fbqdt1_di" bpmnElement="Task_1u5t96p">
+        <dc:Bounds x="850" y="501" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

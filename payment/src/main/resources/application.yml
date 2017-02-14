@@ -1,5 +1,5 @@
 server:
-  context-path: /payment
+  context-path: /payment-api
   servlet-path: /rs
   port: 8083
   address: 0.0.0.0

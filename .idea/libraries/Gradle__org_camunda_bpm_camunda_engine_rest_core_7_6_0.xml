@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.camunda.bpm:camunda-engine-rest-core:7.6.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.bpm/camunda-engine-rest-core/7.6.0/c705ec48e0b21c9162e74e52910a9001976bf041/camunda-engine-rest-core-7.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.camunda.bpm/camunda-engine-rest-core/7.6.0/c3b072c62c945a8863fc57bad7deadef2c606aa9/camunda-engine-rest-core-7.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -8,13 +8,15 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter
 import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
 
 
 /**
  * @author Gabriel Francisco <peo_gfsilva@uolinc.com>
  */
 @Entity
-data class Payment(val id: Long = 0,
+data class Payment(@Id @GeneratedValue val id: Long = 0,
                    val value: Int = 0,
                    val person: Int = 0,
                    val paymentMethod: String = "",
