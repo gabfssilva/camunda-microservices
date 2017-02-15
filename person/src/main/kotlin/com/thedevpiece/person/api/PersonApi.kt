@@ -18,7 +18,8 @@ import javax.persistence.Id
 data class Person(@Id @GeneratedValue val id: Long = 0,
                   val name: String = "",
                   val age: Int = -1,
-                  val occupation: String = "")
+                  val occupation: String = "",
+                  val status: String = "CREATED")
 
 @RepositoryRestResource
 interface PersonRestRepository : PagingAndSortingRepository<Person, Long>

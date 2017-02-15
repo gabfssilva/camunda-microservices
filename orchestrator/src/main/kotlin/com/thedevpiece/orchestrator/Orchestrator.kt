@@ -1,15 +1,9 @@
 package com.thedevpiece.orchestrator
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import org.camunda.bpm.engine.delegate.Expression
 import org.camunda.bpm.engine.delegate.JavaDelegate
-import org.camunda.bpm.engine.impl.persistence.entity.ExecutionEntity
-import org.camunda.bpm.spring.boot.starter.configuration.CamundaDeploymentConfiguration
-import org.camunda.bpm.spring.boot.starter.configuration.impl.DefaultDeploymentConfiguration
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Primary
 import org.springframework.web.client.RestTemplate
 import java.net.URI
 
@@ -36,8 +30,7 @@ class GenericHttpDelegate : JavaDelegate {
 }
 
 @SpringBootApplication
-open class Application {
-}
+open class Application
 
 fun main(args: Array<String>) {
     SpringApplication.run(Application::class.java, *args)

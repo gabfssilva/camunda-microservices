@@ -3,3 +3,7 @@ server:
   servlet-path: /rs
   port: 8084
   address: 0.0.0.0
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
